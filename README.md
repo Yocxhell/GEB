@@ -15,6 +15,7 @@ Instructions:
 Info Folder: Contains detailed instructions on how to use the program.
 banlist.txt: A list of known griefers.
 warnlist.txt: A list of possible griefers. If you find any people with a 'warning', please try to gather evidence
+graylist.txt : A list of people you analyzed in the past
 Ensure that all Steam IDs added manually to lists end with a '/' to be recognized correctly.
 
 Feedback: Please contact me directly on u/Leowanaton .
