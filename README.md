@@ -1,8 +1,8 @@
-[BETA] GetEmBernie.exe
-
 Hi everyone,
 
-I’m looking for beta testers for this designed specifically for Don't Starve Together. The program helps identify and track griefers by analyzing screenshots for Steam profiles and comparing them against a list of known or potential griefers.
+We're working on a project designed to help identify and track griefers in Don't Starve Together. The program analyzes screenshots for Steam profiles and compares them against a list of known or potential griefers. We're currently in the beta testing phase and looking for players to help test and improve the tool.
+
+If you're interested in helping us make the DST community a safer place, we'd love to have you on board! Your feedback will be invaluable in refining the tool and making it more effective.
 
 What the Program Does:
 Function: The program detects Steam profiles and character icons in screenshots and then checks these profiles against lists of griefers.
