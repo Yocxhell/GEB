@@ -17,7 +17,6 @@ banlist.txt: A list of known griefers.
 warnlist.txt: A list of possible griefers. If you find any people with a 'warning', please try to gather evidence
 Ensure that all Steam IDs added manually to lists end with a '/' to be recognized correctly.
 
-Feedback:
-Private Feedback: Please contact me directly on u/Leowanaton .
+Feedback: Please contact me directly on u/Leowanaton .
 Suggestions: Feel free to leave comments here.
 Thank you for helping with the beta testing!
