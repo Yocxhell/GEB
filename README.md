@@ -5,7 +5,8 @@ We're working on a project designed to help identify and track griefers in Don't
 If you're interested in helping us make the DST community a safer place, we'd love to have you on board! Your feedback will be invaluable in refining the tool and making it more effective.
 
 What the Program Does:
-Function: The program detects Steam profiles and character icons in screenshots and then checks these profiles against lists of possible griefers.
+Function: The program detects Steam profiles and character icons in screenshots and then checks these profiles to see if they match with steam profiles contained in warnlist.txt.
+Important: Do NOT assume profiles of players in warnlist.txt are all griefers, especially if profile has no current reports, however keep still an eye out for them and be ready to record if they do grief.
 
 Detection Methods:
 Multiple Players: When SOLO_TARGETING is set to FALSE, the program will take a screenshot 2 seconds after you start the analysis. If no icons are detected, it will return to the options menu.
@@ -13,7 +14,7 @@ Single Player: When SOLO_TARGETING is set to TRUE, the program will take a scree
 
 Instructions:
 Info Folder: Contains detailed instructions on how to use the program.
-warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning', please try to gather evidence and never kick, because warnlist isnt meant to always contain griefers, but possible cases (especially if no reports available, player might be innocent)
+warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning', please try to gather evidence and not kick immediately (else i cant have reports showing evidence of griefing)
 graylist.txt : A list of people you analyzed in the past
 Adding manually steamids to warnlist.txt is not suggested, though possible. You can always download the official version of warnlist.txt from the application itself or manually from this repository.
 
