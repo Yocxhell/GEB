@@ -15,112 +15,111 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 /**
- * Gestisce le interazioni con l'overlay di Steam.
+ * Manages interactions with the Steam overlay.
  */
 public class SteamOverlayManager {
 
     private Robot robot;
     private Map<String, String> warnlist;
 
-
     public SteamOverlayManager(Robot robot) throws IOException {
         this.robot = robot;
     }
 
     /**
-     * Clicca sull'icona e esegue le azioni dell'overlay di Steam.
+     * Clicks on the icon and performs actions in the Steam overlay.
      *
-     * @param x La coordinata x dell'icona
-     * @param y La coordinata y dell'icona
+     * @param x The x coordinate of the icon
+     * @param y The y coordinate of the icon
      */
     public void clickIcon(int x, int y) {
         ScreenManager.click(robot, x, y);
-        // Esegui azioni dopo il clic, attendendo che l'overlay si apra fino al tempo massimo fornito, altrimenti prosegue al prossimo
+        // Perform actions after the click, waiting for the overlay to open up to the provided maximum time, otherwise proceed to the next
         performActions("screenshots/icons/steam_overlay_option_bar.png", 10000, 500);
     }
     
     public void clickIcon() {
-        // Esegui azioni dopo il clic, attendendo che l'overlay si apra fino al tempo massimo fornito, altrimenti prosegue al prossimo
+        // Perform actions after the click, waiting for the overlay to open up to the provided maximum time, otherwise proceed to the next
         performActions("screenshots/icons/steam_overlay_option_bar.png", 10000, 500);
     }
 
     /**
-     * Esegue le azioni necessarie sull'overlay di Steam e attende fino a quando l'immagine di conferma non viene trovata.
+     * Performs necessary actions on the Steam overlay and waits until the confirmation image is found.
      *
-     * @param confirmationImagePath Il percorso dell'immagine di conferma da trovare
-     * @param maxWaitTime Il tempo massimo di attesa in millisecondi
-     * @param checkInterval L'intervallo di controllo in millisecondi
+     * @param confirmationImagePath The path of the confirmation image to find
+     * @param maxWaitTime The maximum wait time in milliseconds
+     * @param checkInterval The check interval in milliseconds
      */
     public void performActions(String confirmationImagePath, int maxWaitTime, int checkInterval) {
         try {
-            // Carica l'immagine di conferma (url contenente lo steamid)
+            // Load the confirmation image (url containing the steamid)
             File confirmationImageFile = new File(confirmationImagePath);
             BufferedImage confirmationImage = ImageIO.read(confirmationImageFile.getAbsoluteFile());
 
-            // Ottieni la dimensione dello schermo
+            // Get the screen size
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Rectangle screenRect = new Rectangle(toolkit.getScreenSize());
 
             long startTime = System.currentTimeMillis();
-            // Finché il tempo di attesa per trovare la corrispondenza non finisce
+            // While the waiting time to find a match hasn't expired
             while (System.currentTimeMillis() - startTime < maxWaitTime) {
                 BufferedImage screenCapture = robot.createScreenCapture(screenRect);
 
-                // Trova la posizione dell'immagine di conferma nello screenshot per trovare l'url con steamid da copiare
+                // Find the position of the confirmation image in the screenshot to locate the url with steamid to copy
                 Point imagePosition = ImageUtils.findImagePosition(screenCapture, confirmationImage);
 
                 if (imagePosition != null) {
-                    //System.out.println("Menu option trovato.");
-                    // Esegui le azioni desiderate qui
+                    // System.out.println("Menu option found.");
+                    // Perform desired actions here
                     executeActions(imagePosition, confirmationImage);
 
-                    return; // Esce dal metodo dopo aver eseguito le azioni
+                    return; // Exit the method after executing actions
                 }
 
-                // Delay tra i tentativi
+                // Delay between attempts
                 robot.delay(checkInterval);
             }
 
-            //System.out.println("Tempo massimo di attesa superato senza trovare l'immagine di conferma.");
+            // System.out.println("Maximum wait time exceeded without finding the confirmation image.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Esegue una serie di azioni specifiche una volta trovata l'immagine di conferma.
+     * Executes a series of specific actions once the confirmation image is found.
      *
-     * @param position La posizione dell'immagine trovata
-     * @param confirmationImage L'immagine di conferma
+     * @param position The position of the found image
+     * @param confirmationImage The confirmation image
      */
     private void executeActions(Point position, BufferedImage confirmationImage) {
-        int xStart = position.x + confirmationImage.getWidth() / 2 + 95; // Centrato orizzontalmente sull'immagine
-        int yStart = position.y + confirmationImage.getHeight() / 2; // Centrato verticalmente sull'immagine
+        int xStart = position.x + confirmationImage.getWidth() / 2 + 95; // Centered horizontally on the image
+        int yStart = position.y + confirmationImage.getHeight() / 2; // Centered vertically on the image
 
-        // Stampa le coordinate per il debug
-        //System.out.println("Coordinate calcolate per il clic: (" + xStart + ", " + yStart + ")");
+        // Print the coordinates for debugging
+        // System.out.println("Calculated coordinates for click: (" + xStart + ", " + yStart + ")");
 
-        // Ottieni la dimensione dello schermo
+        // Get the screen size
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Rectangle screenRect = new Rectangle(toolkit.getScreenSize());
         int screenWidth = screenRect.width;
 
-        // Esegui il clic e inizia a trascinare
+        // Perform the click and start dragging
         robot.mouseMove(xStart, yStart);
         robot.delay(100);
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 
-        // Trascina il mouse fino ai limiti dello schermo
-        int stepSize = 10; // Dimensione del passo per il movimento
+        // Drag the mouse to the screen limits
+        int stepSize = 10; // Step size for movement
         for (int x = xStart; x <= screenWidth; x += stepSize) {
             robot.mouseMove(x, yStart);
             robot.delay(1);
         }
 
-        // Rilascia il clic
+        // Release the click
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
-        // Copio il testo evidenziato con il trascinamento del mouse negli appunti
+        // Copy the highlighted text using mouse dragging to the clipboard
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_C);
         robot.delay(50);
@@ -128,11 +127,10 @@ public class SteamOverlayManager {
         robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.delay(50);
 
-        // Ottieni il testo copiato dagli appunti
+        // Get the copied text from the clipboard
         String copiedText = ClipboardUtils.getClipboardText().trim();
 
-
-        // Aggiungi il testo alla graylist se non è già presente
+        // Add the text to the graylist if it is not already present
         try {
             FileUtils.appendToGraylistIfNotExists(copiedText);
         } catch (IOException e) {
@@ -150,37 +148,37 @@ public class SteamOverlayManager {
             BufferedImage targetImage = ImageIO.read(targetImageFile.getAbsoluteFile());
             BufferedImage screenCapture = robot.createScreenCapture(screenRect);
 
-            //Provo a cercare la barra di uscita
+            // Try to find the exit bar
             Point imagePosition = ImageUtils.findImagePosition(screenCapture, targetImage);
 
             if (imagePosition != null) {
-                //System.out.println("Immagine exit trovata e cliccata.");
-                int xClick = imagePosition.x + targetImage.getWidth() / 2; // Centrato orizzontalmente sull'immagine
-                int yClick = imagePosition.y + targetImage.getHeight() / 2; // Centrato verticalmente sull'immagine
+                // System.out.println("Exit image found and clicked.");
+                int xClick = imagePosition.x + targetImage.getWidth() / 2; // Centered horizontally on the image
+                int yClick = imagePosition.y + targetImage.getHeight() / 2; // Centered vertically on the image
                 robot.mouseMove(xClick, yClick);
                 robot.delay(200);
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                 robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             } else {
-                //System.out.println("Immagine exit non trovata.");
-                // Prova con altre azioni di fallback se necessario
+                // System.out.println("Exit image not found.");
+                // Try other fallback actions if necessary
                 robot.mouseMove(1317, 1003);
                 robot.delay(100);
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                 robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             }
         } catch (IOException e) {
-            //System.err.println("Errore nel leggere l'immagine di exit: " + e.getMessage());
+            // System.err.println("Error reading the exit image: " + e.getMessage());
             e.printStackTrace();
         }
 
-        // Premi Shift + Tab
+        // Press Shift + Tab
         robot.keyPress(KeyEvent.VK_SHIFT);
         robot.keyPress(KeyEvent.VK_TAB);
         robot.delay(50);
         robot.keyRelease(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_SHIFT);
-        // Delay per far svanire l'overlay di Steam per assicurarsi che le icone siano cliccabili
+        // Delay to let the Steam overlay fade out to ensure the icons are clickable
         robot.delay(500);
     }
     
@@ -194,6 +192,5 @@ public class SteamOverlayManager {
                 warnlist.put(parts[0].trim(), parts[1].trim()); // Profile URL -> Telegra.ph Report URL
             }
         }
-        
     }
 }
