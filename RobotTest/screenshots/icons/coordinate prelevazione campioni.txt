@@ -1,0 +1,8 @@
+formato -> nome_file : x, y, width, height
+
+
+view_players_outside_menu__steam_icon : 1114, 268, 42, 41;
+view_players_menu_character_icon : 1040, 338, 50, 50;
+outfit_button : 1001, 244, 91, 32;
+view_players_inside_menu__steam_icon : 1296, 351, 26, 25;
+scrollbar_end : 1173, 646, 52, 83;
