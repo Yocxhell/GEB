@@ -9,9 +9,9 @@ import java.awt.datatransfer.Transferable;
 public class ClipboardUtils {
 
     /**
-     * Ottiene il testo copiato dagli appunti.
+     * Gets the text copied from the clipboard.
      *
-     * @return Il testo copiato, oppure una stringa vuota se non c'è testo.
+     * @return The copied text, or an empty string if there is no text.
      */
     public static String getClipboardText() {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -27,15 +27,15 @@ public class ClipboardUtils {
         return "";
     }
     
-    // Metodo per pulire la clipboard
+    // Method to clear the clipboard
     public static void clearClipboard() {
-        // Crea una stringa vuota
+        // Create an empty string
         StringSelection emptySelection = new StringSelection("");
         
-        // Ottieni la clipboard di sistema
+        // Get the system clipboard
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         
-        // Imposta la clipboard con il contenuto vuoto
+        // Set the clipboard with empty content
         clipboard.setContents(emptySelection, null);
     }
 }
