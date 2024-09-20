@@ -13,10 +13,9 @@ Single Player: When SOLO_TARGETING is set to TRUE, the program will take a scree
 
 Instructions:
 Info Folder: Contains detailed instructions on how to use the program.
-banlist.txt: A list of known griefers (Will be removed soon).
-warnlist.txt: A list of possible griefers. If you find any people with a 'warning', please try to gather evidence instead of kicking them delaying reports gathering.
+warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning', please try to gather evidence and never kick, because warnlist isnt meant to always contain griefers, but possible cases (especially if no reports available, player might be innocent)
 graylist.txt : A list of people you analyzed in the past
-Ensure that all Steam IDs added manually to lists end with a '/' to be recognized correctly.
+Adding manually steamids to warnlist.txt is not suggested, though possible. You can always download the official version of warnlist.txt from the application itself or manually from this repository.
 
 Feedback: Please contact me directly on u/Leowanaton .
 Suggestions: Feel free to leave comments here.
