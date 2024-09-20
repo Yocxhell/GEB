@@ -17,26 +17,26 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 /**
- * Classe principale per l'esecuzione del test del Robot.
+ * Main class for executing the Robot test.
  */
 public class RobotTest {
 
     /**
-     * Unisce due liste di coordinate, inserendo i primi elementi di match2 dopo i primi di match e i secondi di match2 dopo i secondi di match.
+     * Merges two lists of coordinates, inserting the first elements of matches2 after the first elements of matches and the second elements of matches2 after the second elements of matches.
      *
-     * @param matches La prima lista di coordinate
-     * @param matches2 La seconda lista di coordinate
-     * @return Una nuova lista con gli elementi di match e match2 uniti come specificato
+     * @param matches The first list of coordinates
+     * @param matches2 The second list of coordinates
+     * @return A new list with the elements of matches and matches2 combined as specified
      */
     private static List<int[]> mergeMatches(List<int[]> matches, List<int[]> matches2) {
-        // Crea una lista per contenere tutti gli elementi delle due liste di input
+        // Creates a list to hold all the elements from the two input list
         List<int[]> mergedMatches = new ArrayList<>();
         
-        // Aggiungi tutti gli elementi delle due liste alla lista unificata
+       // Add all elements from the two lists to the unified list
         mergedMatches.addAll(matches);
         mergedMatches.addAll(matches2);
 
-        // Ordina la lista unificata in base al secondo elemento di ogni array
+       // Sort the unified list based on the second element of each array
         Collections.sort(mergedMatches, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
@@ -65,7 +65,7 @@ public class RobotTest {
             System.out.print("DISCLAIMER: This application has only been tested on: Windows 10, Steam, strictly 1920x1080 resolution, and fullscreen DST\n\n\n");
             
             do {
-                // Usa il metodo di ScreenManager per ottenere il testo colorato
+                // Use the ScreenManager method to get the colored text
                 String status = ScreenManager.getSoloTargetingStatus(soloTargeting);
                 if (!soloTargeting) {
                     choose = in.intValue("\nSOLO_TARGETING: " + status + "\n\n1)Analize players from a server (from server list)\n2)Analize players from the server you are connected to\n3)Reload all lists\n4)Switch solotargeting mode\n5)Download official warnlist\nOther)Quit\n\n");
@@ -89,7 +89,7 @@ public class RobotTest {
                         BufferedImage imgA = robot.createScreenCapture(new Rectangle(offsetX, offsetY, 495, 479));
                         List<int[]> matches = ImageUtils.imageCompareEqual(imgA, imgB);
                         
-                        // Se non si trovano icone steam nello screenshot non sono visibili i player e si interrompe l'azione
+                        // If no Steam icons are found in the screenshot, players are not visible and the action is stopped
                         if (matches.isEmpty()) {
                             System.out.print("\nNo players found, action stopped\n");
                             break;
@@ -113,7 +113,7 @@ public class RobotTest {
                         }
                         
                         
-                        // Se l'inizio della barra viene trovata, significa che ci sono altri match nascosti e necessitano di scrolling per essere cliccati
+                        // If the start of the bar is found, it means there are other hidden matches that need scrolling to be clicked
                         if (savedImage != null && ImageUtils.imageCompareEqual(imgA, savedImage).size() == 1) {
                             try {
                                 // Carica l'immagine di conferma (per capire quando terminare lo scroll)
@@ -124,29 +124,29 @@ public class RobotTest {
                                 Toolkit toolkit = Toolkit.getDefaultToolkit();
                                 Rectangle screenRect = new Rectangle(toolkit.getScreenSize());
 
-                                BufferedImage previousCapture = imgA; // Cattura iniziale
+                                BufferedImage previousCapture = imgA; // Initial capture
 
-                                // Finché l'immagine di fine scrollbar non viene trovata, continua a scrollare e cliccare l'ultima icona trovata
+                                // As long as the end scrollbar image is not found, continue scrolling and clicking the last found icon
                                 while (true) {
                                     imgA = robot.createScreenCapture(screenRect);
-                                    robot.mouseWheel(1); // Scrolla in basso
+                                    robot.mouseWheel(1); // Scroll down
                                     robot.delay(100);
 
-                                    // Verifica se l'immagine di fine scrollbar è visibile
+                                    // Verify if the end scrollbar image is visile
                                     if (!ImageUtils.imageCompareEqual(imgA, endImage).isEmpty()) {
-                                        //System.out.println("Fine della scrollbar trovata.");
-                                        break; // Esce dal ciclo se l'immagine di fine scrollbar è trovata
+                                        //System.out.println("Scrollbar image found.");
+                                        break; // // Exit the loop if the end scrollbar image is found
                                     }
 
-                                    // Clicca l'ultima icona trovata
+                                    // Click the last icon found
                                     overlayManager.clickIcon(lastIconX, lastIconY);
 
-                                    // Verifica se l'immagine catturata è cambiata (per evitare loop infiniti)
+                                    // // Check if the captured image has changed (to avoid infinite loops)
                                     if (ImageUtils.imagesAreEqual(previousCapture, imgA)) {
-                                        //System.out.println("Nessun cambiamento nella schermata, terminando lo scroll.");
-                                        break; // Esce dal ciclo se la schermata non cambia
+                                        //System.out.println("// No change on the screen, ending the scroll.");
+                                        break; // // Exit the loop if the screen does not change
                                     }
-                                    previousCapture = imgA; // Aggiorna la cattura precedente
+                                    previousCapture = imgA; // // Update the previous capture
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -169,17 +169,17 @@ public class RobotTest {
                         int lastIconX = -1;
                         int lastIconY = -1;
                         
-                        // Cattura lo screenshot
+                        // Capture the screenshot
                         BufferedImage imgA = robot.createScreenCapture(new Rectangle(offsetX, offsetY, 577, 577));
 
-                        // Carica immagini icona (principale e variante)
+                        // // Load icon images (main and variant)
                         File characterIconFile = new File("screenshots/icons/view_players_menu_character_icon.png");
                         BufferedImage characterIcon = ImageIO.read(characterIconFile.getAbsoluteFile());
 
                         File characterIcon2File = new File("screenshots/icons/view_players_menu_character_icon_2.png");
                         BufferedImage characterIcon2 = ImageIO.read(characterIcon2File.getAbsoluteFile());
                         
-                        // Converti solo imgA per sostituire i pixel trasparenti con il bianco
+                        // Convert only imgA to replace transparent pixels with white
                         BufferedImage imgAConverted = ImageUtils.convertNonBlackOrReferenceColorsToWhite(imgA, characterIcon, characterIcon2);
                         
                         robot.delay(100);
@@ -191,13 +191,13 @@ public class RobotTest {
                         File ingameCharacterListConvertedFile = new File("screenshots/ingame_character_list_converted.png");
                         ImageIO.write(imgAConverted, "png", ingameCharacterListConvertedFile.getAbsoluteFile());
 
-                        // Confronta imgA convertita con i due character button
+                        // // Compare the converted imgA with the two character buttons
                         List<int[]> matches = ImageUtils.imageCompareSimilar(imgAConverted, characterIcon, 20);
                         List<int[]> matches2 = ImageUtils.imageCompareSimilar(imgAConverted, characterIcon2, 20);
-                        // Unisci la lista di risultati in modo alternato per ripristinare l'ordine
+                        // // Merge the results list in an alternating fashion to restore the order
                         List<int[]> mergedMatches = mergeMatches(matches, matches2);
 
-                        // Se non si trovano icone carattere, non sono visibili i player e si interrompe l'azione
+                        // // If character icons are not found, players are not visible and the action is stopped
                         if (mergedMatches.isEmpty()) {
                             System.out.print("\nNo players found, action stopped\n");
                             break;
@@ -206,10 +206,10 @@ public class RobotTest {
                         List<int[]> currentMatches = new ArrayList<>(mergedMatches);
                         
                         for (int[] match : mergedMatches) {
-                            //System.out.println("Icona carattere trovata a: (" + match[0] + ", " + match[1] + ")");
+                            //System.out.println("Character Icon found at: (" + match[0] + ", " + match[1] + ")");
                         }
 
-                        // Creare una nuova immagine dalla sezione desiderata dell'immagine convertita
+                        // Create a new image from the desired section of the converted image
                         BufferedImage subImage = imgAConverted.getSubimage(517, 481, 54, 85);
                         File scrollbarEndIngameFile = new File("screenshots/scrollbar_end_ingame.png");
                         ImageIO.write(subImage, "png", scrollbarEndIngameFile.getAbsoluteFile());
@@ -221,11 +221,11 @@ public class RobotTest {
                             int iconHeight = characterIcon.getHeight();
                             int clickX = offsetX + match[0] + iconWidth / 2;
                             int clickY = offsetY + match[1] + iconHeight / 2;
-                            //Naviga attraverso le pagine per raggiungere l'icona steam, cliccando il character icon
+                            // Navigate through the pages to reach the Steam icon by clicking the character icon
                             ScreenManager.click(robot, clickX, clickY);
                             robot.delay(300);
                             robot.keyRelease(KeyEvent.VK_TAB);
-                            //Dopodichè controlliamo se è presente il bottone outfit
+                            // After that, we check if the outfit button is present
                             BufferedImage outfitButtonCheck = robot.createScreenCapture(new Rectangle(847, 204, 883, 343));
                             File outfitButtonCheckFile = new File("screenshots/outfit_button_check.png");
                             ImageIO.write(outfitButtonCheck, "png", outfitButtonCheckFile.getAbsoluteFile());
@@ -234,19 +234,19 @@ public class RobotTest {
                             BufferedImage outfitButton = ImageIO.read(outfitButtonFile.getAbsoluteFile());
                             
                             List<int[]> buttonMatches = ImageUtils.imageCompareSimilar(outfitButtonCheck, outfitButton, 20);
-                            // Se troviamo il bottone outfit, centriamolo e premiamolo prima di premere l'icona steam
+                            // If we find the outfit button, center it and press it before clicking the steam icon
                             if (buttonMatches.size() == 1) {
-                                //System.out.print("\nBottone trovato a: (" + match[0] + ", " + match[1] + ")");
-                                //Clicchiamo sul bottone outfit
+                                //System.out.print("\nButton found at: (" + match[0] + ", " + match[1] + ")");
+                                //Click on button outfit
                                 ScreenManager.click(robot, 1044, 259);
                                 robot.delay(150);
                             }
-                            //Se non troviamo il bottone outfit, possiamo già premere l'icona di steam
-                            //Clicchiamo sui 2 punti possibili dove può essere l'icona di steam (a causa del personaggio già selezionato o meno)
+                            // If we don't find the outfit button, we can already press the steam icon
+                            // Click on the 2 possible points where the steam icon might be (due to whether the character is already selected or not)
                             ScreenManager.click(robot, 1300, 363);                                  
                             ScreenManager.click(robot, 1300, 570);
                             robot.delay(400);
-                            //Poi controlliamo se il tasto per ripristinare l'icona è visibile, se si la finestra di steam è nascosta e bisogna cliccare, altrimenti è già visibile
+                            //Then we check if the button to restore window is hidden, if yes the steam window is hidden and needs to be clicked, else its already visible
                             BufferedImage restoreWindowIconCheck = robot.createScreenCapture(new Rectangle(0, 960, 1920, 120));
                             File restoreWindowCheckFile = new File("screenshots/steam_restore_window_check.png");
                             ImageIO.write(restoreWindowIconCheck, "png", restoreWindowCheckFile.getAbsoluteFile());
@@ -272,7 +272,7 @@ public class RobotTest {
                             robot.keyRelease(KeyEvent.VK_ESCAPE);
                             robot.delay(50);
                             
-                            //Se ci sono tra 5 e 6 icone, salva le coordinate dell'ultima icona
+                            //If there are between 5 and 6 icons, save coordinates of last icon
                             if (currentMatches.size() > 4 && currentMatches.size() < 7) {
                                 lastIconX = clickX;
                                 lastIconY = clickY;
@@ -280,7 +280,7 @@ public class RobotTest {
                             
                         }
                         
-                        // Pulizia della clipboard all'inizio
+                        // Clean of clipboard at the start
                         ClipboardUtils.clearClipboard();
 
                        if (subImage != null && ImageUtils.containsBlack(subImage, 30)) {
@@ -309,15 +309,15 @@ public class RobotTest {
                                         robot.delay(150);
                                     }
 
-                                    //Ottenere il testo dalla clipboard
+                                    //Obtain text from clipboard
                                     previousClipboardText = ClipboardUtils.getClipboardText();
                                     
-                                    //Se non troviamo il bottone outfit, possiamo già premere l'icona di steam
-                                    //Clicchiamo sui 2 punti possibili dove può essere l'icona di steam (a causa del personaggio già selezionato o meno)
+                                    //If we cant find outfit button, we can already click steam icon
+                                    //We click on the 2 possible points where steam icon can be (depending if character is selected or not)
                                     ScreenManager.click(robot, 1300, 363);                                  
                                     ScreenManager.click(robot, 1300, 570);
                                     robot.delay(400);
-                                    //Poi controlliamo se il tasto per ripristinare l'icona è visibile, se si la finestra di steam è nascosta e bisogna cliccare, altrimenti è già visibile
+                                    //Then we check if the button to restore the icon is visible, if yes the steam window is hidden and you have to click, otherwise it is already visible
                                     BufferedImage restoreWindowIconCheck = robot.createScreenCapture(new Rectangle(0, 960, 1920, 120));
                                     File restoreWindowCheckFile = new File("screenshots/steam_restore_window_check.png");
                                     ImageIO.write(restoreWindowIconCheck, "png", restoreWindowCheckFile.getAbsoluteFile());
@@ -343,7 +343,7 @@ public class RobotTest {
                                     robot.keyRelease(KeyEvent.VK_ESCAPE);
                                     robot.delay(50);
 
-                                    // Ottenere il testo dalla clipboard e confrontare
+                                    // Get text from clipboard and compare
                                     String currentClipboardText = ClipboardUtils.getClipboardText().trim();
                                     if (currentClipboardText.equals(previousClipboardText)) {
                                         break;
@@ -355,28 +355,28 @@ public class RobotTest {
                             }
                         }
 
-                    else {//System.out.println("subImage è nullo o non contiene pixel neri.");
+                    else {//System.out.println("subImage is null or contains no black pixels.");
                         }
                         
                     }
                     
                     
                     case 3 -> {
-                        ScreenManager.clearConsole(); //"pulisci" la console
-                        FileUtils.reloadGraylist(); // Ricarica la graylist
-                        FileUtils.reloadWarnlist(); // Ricarica la warnlist
-                        overlayManager.getCurrentLists(); //Ricarica le nuove liste sul manager steam
+                        ScreenManager.clearConsole(); //"clean" the console
+                        FileUtils.reloadGraylist(); // Reload the graylist
+                        FileUtils.reloadWarnlist(); // Reload the warnlist
+                        overlayManager.getCurrentLists(); //Reload new lists on steam manager
                         System.out.print("\nLists reloaded\n");
                     }
                     
                     case 4 -> {
-                        ScreenManager.clearConsole(); //"pulisci" la console
+                        ScreenManager.clearConsole(); //"clean" the console
                         soloTargeting = !soloTargeting;
                     }
                     
                     case 5 -> {
-                        ScreenManager.clearConsole(); //"pulisci" la console
-                        FileUtils.downloadWarnlist(); // Prova a scaricare la warnlist ufficiale dal GitHub del progetto "GEB"
+                        ScreenManager.clearConsole(); //"clean" the console
+                        FileUtils.downloadWarnlist(); // Try downloading the official warnlist from the GitHub of the "GEB" project
                     }
                     
                     default -> {
@@ -393,10 +393,10 @@ public class RobotTest {
                          
                         ScreenManager.clearConsole();
                         robot.delay(3000);
-                        // Ottieni la posizione attuale del mouse
+                        // Get the current mouse position
                         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         
-                        // Estrai le coordinate X e Y
+                        // Extract X and Y coordinates
                         int x = (int) mouseLocation.getX();
                         int y = (int) mouseLocation.getY();
                             
@@ -410,12 +410,12 @@ public class RobotTest {
                         robot.delay(3000);
                         robot.keyPress(KeyEvent.VK_TAB);
                         robot.delay(100);
-                        // Ottieni la posizione attuale del mouse
+                        // Get the current mouse position
                         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-                        // Estrai le coordinate X e Y
+                        // Extract X and Y coordinates
                         int x = (int) mouseLocation.getX();
                         int y = (int) mouseLocation.getY();
-                        //Naviga attraverso le pagine per raggiungere l'icona steam, cliccando il character icon
+                        //Navigate through the pages to reach the steam icon by clicking the character icon
                         ScreenManager.click(robot, x, y);
                         robot.delay(300);
                         robot.keyRelease(KeyEvent.VK_TAB);
@@ -428,19 +428,19 @@ public class RobotTest {
                         BufferedImage outfitButton = ImageIO.read(outfitButtonFile.getAbsoluteFile());
                             
                         List<int[]> buttonMatches = ImageUtils.imageCompareSimilar(outfitButtonCheck, outfitButton, 20);
-                        // Se troviamo il bottone outfit, centriamolo e premiamolo prima di premere l'icona steam
+                        // If we find the outfit button, let's center it and press it before pressing the steam icon
                         if (buttonMatches.size() == 1) {
-                            //System.out.print("\nBottone trovato a: (" + match[0] + ", " + match[1] + ")");
-                            //Clicchiamo sul bottone outfit
+                            //System.out.print("\nButton found at: (" + match[0] + ", " + match[1] + ")");
+                            //We click on the outfit button
                             ScreenManager.click(robot, 1044, 259);
                             robot.delay(150);
                         }
-                        //Se non troviamo il bottone outfit, possiamo già premere l'icona di steam
-                        //Clicchiamo sui 2 punti possibili dove può essere l'icona di steam (a causa del personaggio già selezionato o meno)
+                        //If we don't find the outfit button, we can already press the steam icon
+                        //We click on the 2 possible points where the steam icon can be (depending on whether the character is already selected or not)
                         ScreenManager.click(robot, 1300, 363);                                  
                         ScreenManager.click(robot, 1300, 570);
                         robot.delay(400);
-                        //Poi controlliamo se il tasto per ripristinare l'icona è visibile, se si la finestra di steam è nascosta e bisogna cliccare, altrimenti è già visibile
+                        //Then we check if the button to restore the icon is visible, if so the steam window is hidden and you have to click, otherwise it is already visible
                         BufferedImage restoreWindowIconCheck = robot.createScreenCapture(new Rectangle(0, 960, 1920, 120));
                         File restoreWindowCheckFile = new File("screenshots/steam_restore_window_check.png");
                         ImageIO.write(restoreWindowIconCheck, "png", restoreWindowCheckFile.getAbsoluteFile());
@@ -469,21 +469,21 @@ public class RobotTest {
                     
                     
                     case 3 -> {
-                        ScreenManager.clearConsole(); //"pulisci" la console
-                        FileUtils.reloadGraylist(); // Ricarica la graylist
-                        FileUtils.reloadWarnlist(); // Ricarica la warnlist
-                        overlayManager.getCurrentLists(); //Ricarica le nuove liste sul manager steam
+                        ScreenManager.clearConsole(); //"clean" the console
+                        FileUtils.reloadGraylist(); // Reload the graylist
+                        FileUtils.reloadWarnlist(); // Reload the warnlist
+                        overlayManager.getCurrentLists(); //Reload new lists on steam manager
                         System.out.print("\nLists reloaded\n");
                     }
                     
                     case 4 -> {
-                        ScreenManager.clearConsole(); //"pulisci" la console
-                        soloTargeting = !soloTargeting;//Inverte lo stato corrente del soloTargeting
+                        ScreenManager.clearConsole(); //"clean" the console
+                        soloTargeting = !soloTargeting;//Reverses the current state of the Targeting only
                     }
                     
                     case 5 -> {
-                        ScreenManager.clearConsole(); //"pulisci" la console
-                        FileUtils.downloadWarnlist(); // Prova a scaricare la warnlist ufficiale dal GitHub del progetto "GEB"
+                        ScreenManager.clearConsole(); //"clean" the console
+                        FileUtils.downloadWarnlist(); // Try downloading the official warnlist from the GitHub of the "GEB" project
                     }
                     
                     default -> {
