@@ -1,5 +1,5 @@
 /*
- * Classe utilizzata per input da TASTIERA con controllo di errore incluso
+ * Class used for KEYBOARD input with error control included
  */
 
 package com.yocxhell.robottest;
