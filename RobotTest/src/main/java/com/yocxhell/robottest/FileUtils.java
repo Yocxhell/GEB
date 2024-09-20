@@ -6,7 +6,7 @@ import java.nio.file.*;
 import java.util.*;
 
 /**
- * Classe di utilità per la gestione dei file.
+ * Utility class for file management.
  */
 public class FileUtils {
 
@@ -20,18 +20,18 @@ public class FileUtils {
     private static List<String> warnlist;
 
     static {
-        // Risolvi i percorsi assoluti
+        // Resolve absolute paths
         graylistFilePath = Paths.get(GRAYLIST_FILE_PATH_RELATIVE).toAbsolutePath();
         warnlistFilePath = Paths.get(WARNLIST_FILE_PATH_RELATIVE).toAbsolutePath();
     }
 
     /**
-     * Inizializza la blacklist, la graylist e la warnlist.
+     * Initialize the graylist and the warnlist
      *
-     * @throws IOException Se si verifica un errore durante la lettura dei file.
+     * @throws IOException If an error occurs while reading the files.
      */
     public static void initializeLists() throws IOException {
-        // Verifica se i file esistono
+        // Verify if files exist.
         if (!Files.exists(graylistFilePath)) {
             throw new FileNotFoundException("Graylist file not found: " + graylistFilePath);
         }
@@ -44,12 +44,12 @@ public class FileUtils {
     }
 
     /**
-     * Ricarica la graylist.
+     * Reload the graylist.
      *
-     * @throws IOException Se si verifica un errore durante la lettura del file.
+     * @throws IOException If an error occurs while reading the file.
      */
     public static void reloadGraylist() throws IOException {
-        // Verifica se il file esiste prima di leggerlo
+        // Check if the file exists before reading it.
         if (!Files.exists(graylistFilePath)) {
             throw new FileNotFoundException("Graylist file not found: " + graylistFilePath);
         }
@@ -57,12 +57,12 @@ public class FileUtils {
     }
 
     /**
-     * Ricarica la warnlist.
+     * Reload the warnlist.
      *
      * @throws IOException Se si verifica un errore durante la lettura del file.
      */
     public static void reloadWarnlist() throws IOException {
-        // Verifica se il file esiste prima di leggerlo
+        // Check if the file exists before reading it.
         if (!Files.exists(warnlistFilePath)) {
             throw new FileNotFoundException("Warnlist file not found: " + warnlistFilePath);
         }
@@ -70,18 +70,18 @@ public class FileUtils {
     }
 
     /**
-     * Restituisce la graylist.
+     * Returns the graylist.
      *
-     * @return Una lista di stringhe contenente gli elementi della graylist.
+     * @return A list of strings containing the elements of the graylist.
      */
     public static List<String> getGraylist() {
         return graylist;
     }
 
     /**
-     * Restituisce la warnlist.
+     * Returns the warnlist.
      *
-     * @return Una lista di stringhe contenente gli elementi della warnlist.
+     * @return A list of strings containing the elements of the warnlist.
      */
     public static List<String> getWarnlist() {
         return warnlist;
@@ -89,9 +89,9 @@ public class FileUtils {
 
 
     /**
-     * Aggiunge il testo alla graylist se non è già presente.
+     * Add the text to the graylist if it is not already present.
      *
-     * @param text Il testo da aggiungere.
+     * @param text The text to add.
      * @throws IOException Se si verifica un errore durante la lettura o scrittura del file.
      */
     public static void appendToGraylistIfNotExists(String text) throws IOException {
@@ -99,9 +99,9 @@ public class FileUtils {
     }
 
     /**
-     * Aggiunge il testo alla warnlist se non è già presente.
+     * Add the text to the warnlist if it is not already present.
      *
-     * @param text Il testo da aggiungere.
+     * @param text The text to add.
      * @throws IOException Se si verifica un errore durante la lettura o scrittura del file.
      */
     public static void appendToWarnlistIfNotExists(String text) throws IOException {
@@ -109,16 +109,16 @@ public class FileUtils {
     }
 
     /**
-     * Aggiunge il testo al file specificato se non è già presente.
+     * Add the text to the specified file if it is not already present.
      *
-     * @param text Il testo da aggiungere.
-     * @param filePath Il percorso del file.
-     * @throws IOException Se si verifica un errore durante la lettura o scrittura del file.
+     * @param text The text to add.
+     * @param filePath The file path.
+     * @throws IOException If an error occurs during the reading or writing of the file.
      */
     private static void appendIfNotExists(String text, Path filePath) throws IOException {
         Set<String> existingLines = new HashSet<>();
 
-        // Leggi il contenuto esistente
+        // Read the existing content.
         if (Files.exists(filePath)) {
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath.toFile()))) {
                 String line;
@@ -128,10 +128,10 @@ public class FileUtils {
             }
         } else {
             System.out.print("File not found: " + filePath);
-            Files.createFile(filePath); // Crea il file se non esiste
+            Files.createFile(filePath); // Create the file if it doesnt exist
         }
 
-        // Se il testo non è già presente, aggiungilo
+        // if the text isnt already present, add it
         if (!existingLines.contains(text)) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath.toFile(), true))) {
                 writer.newLine();
