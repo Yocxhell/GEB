@@ -4,18 +4,17 @@ import java.awt.Robot;
 import java.awt.event.InputEvent;
 
 /**
- * Classe che gestisce il confronto delle immagini.
+ * Class that manages image comparison.
  */
 public class ScreenManager {
 
-
     public static String getSoloTargetingStatus(boolean soloTargeting) {
-        
         String statusText = soloTargeting ? "TRUE" : "FALSE";
-        return statusText ;
+        return statusText;
     }
+
     /**
-     * Pulisce la console stampando righe vuote.
+     * Clears the console by printing empty lines.
      */
     public static void clearConsole() {
         for (int i = 0; i < 100; i++) {
@@ -24,18 +23,19 @@ public class ScreenManager {
     }
 
     /**
-     * Esegue un clic del mouse in una posizione specificata.
+     * Executes a mouse click at a specified position.
      *
-     * @param robot L'istanza di Robot per eseguire le azioni
-     * @param x La coordinata x del clic
-     * @param y La coordinata y del clic
+     * @param robot The Robot instance to perform actions
+     * @param x The x coordinate of the click
+     * @param y The y coordinate of the click
      */
     public static void click(Robot robot, int x, int y) {
         robot.mouseMove(x, y);
-        robot.delay(50); // Aggiunge un delay per consentire all'app di registrare l'hover
+        robot.delay(50); // Adds a delay to allow the app to register the hover
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         robot.delay(50);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
-   
+
 }
+
