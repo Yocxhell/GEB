@@ -6,7 +6,7 @@ If you're interested in helping us make the DST community a safer place, we'd lo
 
 What the Program Does:
 Function: The program detects Steam profiles and character icons in screenshots and then checks these profiles to see if they match with steam profiles contained in warnlist.txt.
-Important: Do NOT assume profiles of players in warnlist.txt are all griefers, especially if profile has no current reports, however pay attention and be ready to record if they do grief.
+IMPORTANT: Do NOT assume players in warnlist.txt are all griefers, especially if profile has no current reports, however pay attention and be ready to record if they do grief.
 
 Detection Methods:
 Multiple Players: When SOLO_TARGETING is set to FALSE, the program will take a screenshot 2 seconds after you start the analysis. If no icons are detected, it will return to the options menu.
@@ -18,6 +18,6 @@ warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning'
 graylist.txt : A list of people you analyzed in the past
 Adding manually steamids to warnlist.txt is not suggested, though possible. You can always download the official version of warnlist.txt from the application itself or manually from this repository.
 
-Feedback: Please contact me directly on u/Leowanaton .
+Feedback: Please contact me directly on Reddit (u/Leowanaton), Steam (Yocxhell) or Discord (_yocxhell) .
 Suggestions: Feel free to leave comments here.
 Thank you for helping with the beta testing!
