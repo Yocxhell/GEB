@@ -59,7 +59,7 @@ public class FileUtils {
     /**
      * Reload the warnlist.
      *
-     * @throws IOException Se si verifica un errore durante la lettura del file.
+     * @throws IOException If an error occurs while reading the file.
      */
     public static void reloadWarnlist() throws IOException {
         // Check if the file exists before reading it.
@@ -92,7 +92,7 @@ public class FileUtils {
      * Add the text to the graylist if it is not already present.
      *
      * @param text The text to add.
-     * @throws IOException Se si verifica un errore durante la lettura o scrittura del file.
+     * @throws IOException If an error occurs during the reading or writing of the file.
      */
     public static void appendToGraylistIfNotExists(String text) throws IOException {
         appendIfNotExists(text, graylistFilePath);
@@ -102,7 +102,7 @@ public class FileUtils {
      * Add the text to the warnlist if it is not already present.
      *
      * @param text The text to add.
-     * @throws IOException Se si verifica un errore durante la lettura o scrittura del file.
+     * @throws IOException If an error occurs during the reading or writing of the file.
      */
     public static void appendToWarnlistIfNotExists(String text) throws IOException {
         appendIfNotExists(text, warnlistFilePath);
