@@ -4,7 +4,7 @@ We're working on a project designed to help identify and track griefers in Don't
 
 If you're interested in helping us make the DST community a safer place, we'd love to have you on board! Your feedback will be invaluable in refining the tool and making it more effective.
 
-If you want to help by recording griefers, follow my guide (and PLEASE try to make videos and not screenshots): https://telegra.ph/Reporting-Guide-09-07
+If you want to help by recording griefers, follow my guide (i strongly advice to make videos and not screenshots): https://telegra.ph/Reporting-Guide-09-07
 
 What the Program Does:
 Function: The program detects Steam profiles and character icons in screenshots and then checks these profiles to see if they match with steam profiles contained in warnlist.txt.
