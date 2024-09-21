@@ -59,7 +59,7 @@ public class FileUtils {
     /**
      * Reload the warnlist.
      *
-     * @throws IOException If an error occurs while reading the file.
+     * @throws IOException If an error occurs during the reading of the file.
      */
     public static void reloadWarnlist() throws IOException {
         // Check if the file exists before reading it.
@@ -141,7 +141,7 @@ public class FileUtils {
     }
     
     public static void downloadWarnlist () {
-        downloadFile ("https://raw.githubusercontent.com/Yocxhell/GEB/main/screenshots/lists/warnlist.txt", warnlistFilePath.toString());
+        downloadFile ("https://raw.githubusercontent.com/Yocxhell/GEB/refs/heads/main/RobotTest/screenshots/lists/warnlist.txt", warnlistFilePath.toString());
     }
     
     private static void downloadFile(String fileURL, String savePath) {
