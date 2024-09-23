@@ -6,6 +6,12 @@ If you're interested in helping us make the DST community a safer place, we'd lo
 
 If you want to help by recording griefers, follow my guide (i strongly advice to make videos and not screenshots): https://telegra.ph/Reporting-Guide-09-07
 
+Requirements:
+This program needs Java 18 (18.0.2.1) or higher to work
+Minimum: https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html
+Latest: https://www.oracle.com/java/technologies/downloads/
+Tutorial: https://www.youtube.com/watch?v=cRgLuNWCq6c
+
 What the Program Does:
 Function: The program detects Steam profiles and character icons in screenshots and then checks these profiles to see if they match with steam profiles contained in warnlist.txt.
 IMPORTANT: Do NOT assume players in warnlist.txt are all griefers, especially if profile has no current reports, however pay attention and be ready to record if they do grief.
