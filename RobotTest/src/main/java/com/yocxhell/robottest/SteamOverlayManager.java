@@ -92,18 +92,10 @@ public class SteamOverlayManager {
      * @param position The position of the found image
      * @param confirmationImage The confirmation image
      */
-    private void executeActions(Point position, BufferedImage confirmationImage) {
+    private void executeActions(Point position, BufferedImage confirmationImage) throws IOException {
         int xStart = position.x + confirmationImage.getWidth() / 2 + 95; // Centered horizontally on the image
         int yStart = position.y + confirmationImage.getHeight() / 2; // Centered vertically on the image
-
-        // Print the coordinates for debugging
-        // System.out.println("Calculated coordinates for click: (" + xStart + ", " + yStart + ")");
-
-        // Get the screen size
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Rectangle screenRect = new Rectangle(toolkit.getScreenSize());
-        int screenWidth = screenRect.width;
-
+    
         // Perform the click and start dragging
         robot.mouseMove(xStart, yStart);
         robot.delay(100);
@@ -111,6 +103,8 @@ public class SteamOverlayManager {
 
         // Drag the mouse to the screen limits
         int stepSize = 10; // Step size for movement
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+
         for (int x = xStart; x <= screenWidth; x += stepSize) {
             robot.mouseMove(x, yStart);
             robot.delay(1);
@@ -130,45 +124,54 @@ public class SteamOverlayManager {
         // Get the copied text from the clipboard
         String copiedText = ClipboardUtils.getClipboardText().trim();
 
-        // Add the text to the graylist if it is not already present
-        try {
-            FileUtils.appendToGraylistIfNotExists(copiedText);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Define regex patterns
+        String steamCustomIdPattern = "^https?://steamcommunity.com/id/[a-zA-Z0-9_]+/$"; // Custom ID format
+        String steamIdPattern = "^https?://steamcommunity.com/profiles/[0-9]+/?$"; // Profile ID format
 
-        if (warnlist.containsKey(copiedText)) {
-            String reportLink = warnlist.get(copiedText);
-            System.out.println("Warning | Requesting evidence for: " + copiedText);
-            System.out.println("Reports: " + reportLink);
-        }
-
+        // Check if the copied text is a custom Steam ID
+        if (copiedText.matches(steamCustomIdPattern)) {
+            String steamIdUrl = SteamIdFetcher.fetchId(copiedText);
+            if (!steamIdUrl.isEmpty()) {
+                // Check if the fetched Steam ID is in the warnlist
+                if (warnlist.containsKey(steamIdUrl)) {
+                    String reportLink = warnlist.get(steamIdUrl);
+                    System.out.println("Warning | Requesting evidence for fetched profile: " + steamIdUrl);
+                    System.out.println("Reports: " + reportLink);
+                    FileUtils.appendToGraylistIfNotExists(copiedText);
+                }
+            } else {
+                System.out.println("Steam ID not fetchable from: " + copiedText);
+            }
+        } else if (copiedText.matches(steamIdPattern)) {
+            // If the copied text is a steam ID, check against the warnlist directly
+            if (warnlist.containsKey(copiedText)) {
+                String reportLink = warnlist.get(copiedText);
+                System.out.println("Warning | Requesting evidence for profile: " + copiedText);
+                System.out.println("Reports: " + reportLink);
+                FileUtils.appendToGraylistIfNotExists(copiedText);
+            }
+        } 
+        
         try {
             File targetImageFile = new File("screenshots/icons/steam_overlay_exit_bar.png");
-            BufferedImage targetImage = ImageIO.read(targetImageFile.getAbsoluteFile());
-            BufferedImage screenCapture = robot.createScreenCapture(screenRect);
+            BufferedImage targetImage = ImageIO.read(targetImageFile);
+            BufferedImage screenCapture = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
 
-            // Try to find the exit bar
             Point imagePosition = ImageUtils.findImagePosition(screenCapture, targetImage);
-
             if (imagePosition != null) {
-                // System.out.println("Exit image found and clicked.");
-                int xClick = imagePosition.x + targetImage.getWidth() / 2; // Centered horizontally on the image
-                int yClick = imagePosition.y + targetImage.getHeight() / 2; // Centered vertically on the image
+                int xClick = imagePosition.x + targetImage.getWidth() / 2;
+                int yClick = imagePosition.y + targetImage.getHeight() / 2;
                 robot.mouseMove(xClick, yClick);
                 robot.delay(200);
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                 robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             } else {
-                // System.out.println("Exit image not found.");
-                // Try other fallback actions if necessary
                 robot.mouseMove(1317, 1003);
                 robot.delay(100);
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                 robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
             }
         } catch (IOException e) {
-            // System.err.println("Error reading the exit image: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -178,9 +181,10 @@ public class SteamOverlayManager {
         robot.delay(50);
         robot.keyRelease(KeyEvent.VK_TAB);
         robot.keyRelease(KeyEvent.VK_SHIFT);
-        // Delay to let the Steam overlay fade out to ensure the icons are clickable
-        robot.delay(500);
+        robot.delay(500); // Delay to let the Steam overlay fade out
     }
+
+
     
     public void getCurrentLists () {
         warnlist = new HashMap<>();
