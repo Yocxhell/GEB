@@ -22,7 +22,7 @@ Single Player: When SOLO_TARGETING is set to TRUE, the program will take a scree
 
 Instructions:
 Info Folder: Contains detailed instructions on how to use the program.
-warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning', please try to gather evidence and not kick immediately (else i cant have reports showing evidence of griefing)
+warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning', please try to gather evidence and not kick immediately (especially if there are no reports available at the time of detection, either proof is needed or player is mistakenly accused)
 graylist.txt : A list of people you analyzed in the past
 Adding manually steamids to warnlist.txt is not suggested, though possible.
 You can always download the official version of warnlist.txt from the application itself or manually from the official GitHub repository https://github.com/Yocxhell/GEB/
