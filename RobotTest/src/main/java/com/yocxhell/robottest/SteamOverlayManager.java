@@ -135,8 +135,13 @@ public class SteamOverlayManager {
                 // Check if the fetched Steam ID is in the warnlist
                 if (warnlist.containsKey(steamIdUrl)) {
                     String reportLink = warnlist.get(steamIdUrl);
-                    System.out.println("Warning | Requesting evidence for fetched profile: " + steamIdUrl);
-                    System.out.println("Reports: " + reportLink);
+                    if (reportLink.equals("none")) {
+                        System.out.println("WARNED | No documented evidence for fetched profile: " + steamIdUrl);
+                        System.out.println("Reports: none");
+                    } else {
+                        System.out.println("DOCUMENTED | Evidence found for fetched profile: " + steamIdUrl);
+                        System.out.println("Reports: " + reportLink);
+                    }
                     FileUtils.appendToGraylistIfNotExists(copiedText);
                 }
             } else {
@@ -146,11 +151,17 @@ public class SteamOverlayManager {
             // If the copied text is a steam ID, check against the warnlist directly
             if (warnlist.containsKey(copiedText)) {
                 String reportLink = warnlist.get(copiedText);
-                System.out.println("Warning | Requesting evidence for profile: " + copiedText);
-                System.out.println("Reports: " + reportLink);
+                if (reportLink.equals("none")) {
+                    System.out.println("WARNED | No documented evidence for profile: " + copiedText);
+                    System.out.println("Reports: none");
+                } else {
+                    System.out.println("DOCUMENTED | Evidence found for profile: " + copiedText);
+                    System.out.println("Reports: " + reportLink);
+                }
                 FileUtils.appendToGraylistIfNotExists(copiedText);
             }
-        } 
+        }
+
         
         try {
             File targetImageFile = new File("screenshots/icons/steam_overlay_exit_bar.png");

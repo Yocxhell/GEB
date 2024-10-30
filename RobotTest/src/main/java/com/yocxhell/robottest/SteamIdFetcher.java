@@ -38,7 +38,7 @@ public class SteamIdFetcher {
 
     // Helper method to perform the HTTP GET request
     private static String fetchSteamIdHtml(String steamCustomIdUrl) throws Exception {
-        //System.out.println("\nFetching from: " + steamCustomIdUrl + "\n");
+        System.out.print("\nFetching from: " + steamCustomIdUrl + "\n");
         URL url = new URL("https://steamid.io/lookup/" + steamCustomIdUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
