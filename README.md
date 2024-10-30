@@ -22,9 +22,10 @@ Single Player: When SOLO_TARGETING is set to TRUE, the program will take a scree
 
 Instructions:
 Info Folder: Contains detailed instructions on how to use the program.
-warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning', please try to gather evidence and not kick immediately (especially if there are no reports available at the time of detection, either proof is needed or player is mistakenly accused)
+warnlist.txt: A list of possible griefers. If you detect anyone with a 'warning', try to monitor them, never kick someone if they dont have a reports OR report page unless they grief on you. Making new reports is always welcome even if the player already has some. Always check the current report page of a warned player (if any) to be up to date and see when the last report was made to make better assertion (you can share with others the page if u want, ur not the only one voting to kick anyway).
+If someone does not have any report page OR no reports in report page, you should never kick them (because there is nothing to support the grief claim) but still try to remain vigilant.
 graylist.txt : A list of people you analyzed in the past
-Adding manually steamids to warnlist.txt is not suggested, though possible.
+Adding manually steamids to warnlist.txt is not suggested, though possible (it just wont correspond with the official one).
 You can always download the official version of warnlist.txt from the application itself or manually from the official GitHub repository https://github.com/Yocxhell/GEB/
 
 Feedback: Please contact me directly on Reddit (u/Leowanaton), Steam (Yocxhell) or Discord (_yocxhell) .
