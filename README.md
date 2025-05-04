@@ -4,7 +4,7 @@ We're working on a project designed to help identify and track griefers in Don't
 
 If you're interested in helping us make the DST community a safer place, we'd love to have you on board! Your feedback will be invaluable in refining the tool and making it more effective.
 
-If you want to help by recording griefers, follow my guide (i strongly advice to make videos and not screenshots): https://telegra.ph/Reporting-Guide-09-07
+If you want to help by recording griefers, follow my guide (i strongly advice to make videos and not screenshots): https://telegra.ph/Reporting-Guide-05-04
 
 Requirements:
 This program needs Java 18 (18.0.2.1) or higher to work
