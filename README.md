@@ -1,3 +1,5 @@
+[THIS PROJECT IS ABANDONED]
+
 Hi everyone,
 
 We're working on a project designed to help identify and track griefers in Don't Starve Together. The program analyzes screenshots for Steam profiles and compares them against a list of possible griefers. We're currently in the beta testing phase and looking for players to help test and improve the tool.
